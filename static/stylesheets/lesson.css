@@ -1,0 +1,68 @@
+/* Message Box */
+
+div.message-box {
+    position: relative;
+    border: 1px solid #fafafa;
+    border-radius: 6px;
+    margin: 35px 0 20px;
+    padding: 25px 10px 10px;
+}
+
+div.message-box .title {
+    position: absolute;
+    top: -15px;
+    line-height: 30px;
+    font-size: 18px;
+    border: 1px solid #fafafa;
+    border-radius: 6px;
+    background: #fafafa;
+    padding: 0 10px;
+    font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+    font-weight: bold;
+}
+
+/* Message Box Colors */
+
+div.message-box.task {
+    border-color: #347CD0;
+    color: #347CD0;
+    background-color: #d7e6f7;
+}
+
+div.message-box.task .title {
+    border-color: #347CD0;
+}
+
+div.message-box.task code {
+    border-color: #afccea;
+}
+
+div.message-box.run {
+    border-color: #6d33cc;
+    color: #6d33cc;
+    background-color: #e1d7f2;
+}
+
+div.message-box.run .title {
+    border-color: #6d33cc;
+}
+
+div.message-box.run code {
+    border-color: #c3aee5;
+    color: #521baa;
+}
+
+div.message-box.note {
+    border-color: #ce8133;
+    color: #ad631a;
+    background-color: #f4e6d7;
+}
+
+div.message-box.note .title {
+    border-color: #ce8133;
+}
+
+div.message-box.note code {
+    border-color: #e8cbae;
+    color: #ad631a;
+}

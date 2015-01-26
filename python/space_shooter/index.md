@@ -4,6 +4,10 @@ title: Space Shooter Game
 
 # Space Shooter Game
 
+<div style="text-align: center">
+<img src="lesson/001.png" alt="Screenshot" />
+</div>
+
 ## Lesson Aims
 
 During the course of this lesson, students should be able to create a
@@ -24,5 +28,12 @@ which directory the terminal is in, and **not** using spaces in names.
 
 Which text editor is used is up to the teacher, but at a minimum, something
 with syntax highlighting should be used.
+
+## Assumptions
+
+* Running `python` will launch Python 2.X **not** Python 3.X.. If you are
+  teaching using arch linux, or something else that uses python 3 by default,
+  look out for this. This can usually be circumvented by running the command
+  `python2` instead of `python`.
 
 ## [View Lesson](lesson/)

@@ -10,6 +10,12 @@ need to introduce the concept of classes and static methods right at the start.
 
 ## Lessons
 
-### [Space Shooter](space_shooter)
+### [Space Shooter](space_shooter/)
+
+<a href="space_shooter/">
+<img src="space_shooter/lesson/001.png" alt="Screenshot" style="max-height: 250px" />
+</a>
+
+**Difficulty:** Medium
 
 Create a 2D Side-Scroller Alien Shooter game using `pygame`.
