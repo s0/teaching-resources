@@ -44,7 +44,8 @@ Here are the files that you need to download to use in your game.
 * [`stars_1.png`](downloads/stars_1.png)
 * [`stars_2.png`](downloads/stars_2.png)
 
-*Attribution for these images can be found on the [lesson details page](../).*
+*Attribution and copyright for these images can be found on the [lesson
+details page](../).*
 
 <div class="message-box task">
   <div class="title">Task</div>
