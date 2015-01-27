@@ -544,6 +544,149 @@ understand what each line is doing.*
   * We make the loop pause for a short period of time so that our frame rate is
     not too high.
 
+## Making the Space Ship Move
+
+We are now going to use keyboard input to move the space ship around the
+screen.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>Firstly add these two lines above the loop:</p>
+<pre><code>ship_x = 0
+ship_y = 0</code></pre>
+  </div>
+</div>
+
+We are going to use these two variables to keep track of the space ship's
+position: we will change them when the player presses the right keys, and use
+their values to work out where to copy the space ship image to on the window.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      Underneath the code that checks if the user has closed the window, add
+      this code:
+    </p>
+<pre><code>    pressed_keys = pygame.key.get_pressed()
+
+    if pressed_keys[pygame.K_UP]:
+        ship_y = ship_y - 10
+
+    if pressed_keys[pygame.K_DOWN]:
+        ship_y = ship_y + 10
+
+    if pressed_keys[pygame.K_RIGHT]:
+        ship_x = ship_x + 10
+
+    if pressed_keys[pygame.K_LEFT]:
+        ship_x = ship_x - 10</code></pre>
+    <p>
+      <strong>Note:</strong> make sure you indent it so that it is inside the
+      loop!
+    </p>
+  </div>
+</div>
+
+This code that you have just added is what will change the position of the
+space ship when you press certain keys on the keyboard.
+
+    pressed_keys = pygame.key.get_pressed()
+
+This line creates a variable called `pressed_keys`, which stores information on
+which keys are currently being pressed by the player. Every time we run the
+loop, we want to check if the user is currently pressing a particular key, and
+if they are, then we will act accordingly.
+
+The rest of the code uses things called **if statements**. If statements make
+sure that certain parts of the code only run in certain situations.
+
+Lets take a look at the first **if statement**:
+
+    if pressed_keys[pygame.K_UP]:
+        ship_y = ship_y - 10
+
+Firstly, it uses the variable `pressed_keys` to check if the the user is
+currently pressing the up key. If they are, then it runs the code which is
+**indented** underneath it.
+
+The code which is indented changes the value of the variable `ship_y` to
+`ship_y - 10`, which means that `ship_y` will have a value of `1`0 less than it
+had before: it will have been decreased.
+
+The other 3 if statements work in the same way, **increasing** or
+**decreasing** `ship_x` and `ship_y`.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      And finally, we want to actually use the variables <code>ship_x</code>
+      and <code>ship_y</code> in the part of our code that copies the space
+      ship image to the window. SO change this line of code:
+    </p>
+    <pre><code>    window.blit(ship_image, (0, 0))</code></pre>
+    <p>
+      To this:
+    </p>
+    <pre><code>    window.blit(ship_image, (ship_x, ship_y))</code></pre>
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. If everything is working, you should be able
+      to press the arrow keys on your keyboard to move the space ship in the
+      correct direction for each key.
+    </p>
+    <p>
+      You will notice that it is very easy to make the space ship go off the
+      edge of the window, this is probably something we want to fix later
+      on&hellip;
+    </p>
+  </div>
+</div>
+
+<div class="message-box task">
+  <div class="title">Task: Experiment!</div>
+  <div class="message-inner">
+    <p>
+      What happens if you press multiple keys at the same time? What about if
+      you press <strong>up</strong> and <strong>down</strong> at the same time?
+    </p>
+  </div>
+</div>
+
+<div class="message-box task">
+  <div class="title">Task: Experiment!</div>
+  <div class="message-inner">
+    <p>
+      Change the amount that we modify <code>ship_x</code> and
+      <code>ship_y</code> by from <code>10</code> to something else. What
+      happens if you have different numbers for different directions? Don't
+      forget to <strong>run your code</strong> to find out!
+    </p>
+  </div>
+</div>
+
+<div class="message-box task">
+  <div class="title">Task: Experiment!</div>
+  <div class="message-inner">
+    <p>
+      Now that we have movement in our game, try changing the
+      <strong>framerate</strong> of our game, and see what effect that has on
+      our game.
+    </p>
+    <p>
+      <strong>Remember:</strong> This is the code that looks like
+      <code>clock.tick(50)</code>.
+    </p>
+  </div>
+</div>
+
 
 
 
