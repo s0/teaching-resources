@@ -229,7 +229,9 @@ Finally, let's address the last bits of the code.
                 sys.exit()
 
 We'll skip over an explanation for these three lines of code for now, but they
-will be explained later on.
+will be explained later on. For now, all you need to know is that it checks if
+the user has closed the window, and if the window has been closed we close the
+whole program.
 
         clock.tick(50)
 
@@ -239,14 +241,335 @@ times faster than we would like, because the number of times it runs per second
 will determine what our framerate is. This means that things moving on the
 screen will probably be moving much faster than we would like.
 
-This line of code makes our program pause (basically slows it down), so it only
-runs as fast as we want it to. Because we gave it the value `50`, it will make
-sure that our loop does not run more than `50` times per second, so that our
-frame rate will also not be faster than `50` times per second.
+One of the first things you should notice about this line is that it starts
+with the same name as the variable `clock` that we created earlier, that is
+because it is actually using the value stored inside that variable. We created
+a `pygame` clock, and saved it in the variable `clock`, and now we have used
+it. This line of code makes our program pause (basically slows it down), so it
+only runs as fast as we want it to. Because we gave it the value `50`, it will
+make sure that our loop does not run more than `50` times per second, so that
+our frame rate will also not be faster than `50` times per second.
 
 Later on, when we have things moving on screen, you will have the opportunity
 to experiment with the frame rate, and see what the effect of it is on your
 game.
+
+<div class="message-box task">
+  <div class="title">Task: Experiment!</div>
+  <div class="message-inner">
+    Change the numbers for the line that tells <code>pygame</code> the width
+    and height, and run your code each time you change it. Do this a few times.
+    Remember to change the numbers back to what they were before you continue.
+  </div>
+</div>
+
+## Adding a Space Ship
+
+Now let's add our first image to the game.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>Add these lines of code to your program above the while loop:</p>
+<pre><code>background = (0, 0, 0)
+ship_image = pygame.image.load("ship_normal.png")</code></pre>
+    <p>And add these lines of code above the clock tick, indented by
+      <strong>four spaces</strong>.</p>
+<pre><code>    window.fill(background)
+    window.blit(ship_image, (0, 0))
+
+    pygame.display.flip()</code></pre>
+  </div>
+</div>
+
+Your code should now look like this:
+
+    import pygame
+    import sys
+
+    pygame.init()
+
+    window = pygame.display.set_mode((800, 500))
+    clock = pygame.time.Clock()
+
+    background = (0, 0, 0)
+    ship_image = pygame.image.load("ship_normal.png")
+
+    while True:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+
+        window.fill(background)
+        window.blit(ship_image, (0, 0))
+
+        pygame.display.flip()
+
+        clock.tick(50)
+
+<div class="message-box note">
+  <div class="title">Note</div>
+  <div class="message-inner">
+    Python does not care how many blank lines there are between lines of code,
+    but it can make it easier to read and understand what's going on.
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+    Try running your code now. If everything is working, you should now see
+    a black window with a space ship in the top left, like this:
+    </p>
+    <p style="text-align: center;">
+      <img src="002.png" alt="Space Ship in Corner" />
+    </p>
+  </div>
+</div>
+
+Lets have a look at what the code that we have added is doing:
+
+    background = (0, 0, 0)
+    ship_image = pygame.image.load("ship_normal.png")
+
+The first line is creating a variable called `background`. The value of this
+variable is 3 numbers grouped together, into something called a **tuple**. At
+the moment, this variable is used in one place, on the line that says
+`window.fill(background)`, which we will explain in a bit, and we will explain
+what those numbers mean.
+
+The second line is creating a variable called `ship_image`, and loading an
+image file (specifically the one stored as `ship_normal.png`), and storing the
+image inside that variable.
+
+        window.fill(background)
+        window.blit(ship_image, (0, 0))
+
+        pygame.display.flip()
+
+These lines of code are all making changes to what we can see in the window.
+And because they are all **indented** by `4` spaces, they are **inside** the
+`while` loop (our event loop), which means they are run once every frame.
+
+The first line fills in the whole window with a specific colour, in this case,
+the colour stored in the variable `background`, and that is what the **tuple**
+is. The tuple `(0, 0, 0)` represents the colour black, but there are over
+16 million colours you can choose from!
+
+The way in which we describe a colour to a computer is with what's called `RGB`
+(which stands for **R**ed, **G**reen and **B**lue). This is because each pixel
+(in most computer screens) is made up of three smaller parts, each of which
+emits a different colour light. One part emits **red** light, one part emits
+**green** light, and another part emits **blue** light. This allows us to
+display a wide range of colours for each pixel on a screen.
+
+The tuple `(0, 0, 0)` means we want `0` red, `0` green and `0` blue, which is
+how we get black, by displaying **no light at all!** Each number in a tuple
+which describes a colour has to be between `0` and `255`, it can't be higher
+than `255`, and it can't be lower than `0`. For example, if we wanted to
+display as much red as we can, but no green and blue, the colour would be
+`(255, 0, 0)`.
+
+<div class="message-box task">
+  <div class="title">Task: Experiment!</div>
+  <div class="message-inner">
+    <p>
+      Change the numbers inside the <strong>tuple</strong> that we set the
+      variable <code>background</code> to, and <strong>run your code each
+      time</strong>. See what happens if all the numbers are really big, and
+      what happens if they are really small.
+    </p>
+    <p>
+      To really experiment, try adding numbers that are <strong>less
+      than</strong> <code>0</code> (eg: <code>-10</code>), or numbers that are
+      bigger than <code>255</code>. If you do this, you should see that your
+      game <strong>CRASHES!</strong>.
+    </p>
+    <p>
+      It might say something like this:
+    </p>
+<pre><code>Traceback (most recent call last):
+  File "game.py", line 19, in &lt;module&gt;
+    window.fill(black)
+TypeError: invalid color argument</code></pre>
+    <p>
+      This means there is a <strong>bug</strong> in your program, and python is
+      trying to tell you where the bug is so that you can fix it. When you
+      write software and games, you will come accross lots of bugs that you
+      will need to fix. This is a normal part of learning to program. Even the
+      best programmers make mistakes and need to fix bugs they created on a
+      daily basis.
+    </p>
+    <p>
+      <strong>REMEMBER:</strong> Don't forget to change the colour back to
+      black (or to a colour close to black) before continuing.
+    </p>
+  </div>
+</div>
+
+Lets get back to the code now:
+
+        window.fill(background)
+        window.blit(ship_image, (0, 0))
+
+        pygame.display.flip()
+
+The second line of code copies the image that we have loaded and stored in the
+variable `ship_image`, and places it inside the window. You can see that when
+we run the code, the ship is places in the top left hand corner of the screen.
+The two numbers in brackets `(0, 0)` is what is telling `pygame` to do this.
+This is another **tuple**, and this tuple is used to represent
+**co-ordinates**. Specifically, these co-ordinates are the `x` and `y`
+positions of where we want the image to be in our window.
+
+* If we **increase** our `x` value, then the image would be more to the
+  **right**.
+* If we **increase** our `y` value, then the image would be further **down**
+  the screen.
+
+When `x` is `0` and `y` is `0`, then we mean the pixel that is furthest to the
+**top** and furthest to the **left**.
+
+Here's a diagram to explain:
+
+<p style="text-align: center;">
+  <img src="003.png" alt="x-y" />
+</p>
+
+This is a bit different to what you might be used to with drawing graphs at
+school, where the **x-axix** is the same, but the **y-axis** goes up instead of
+down. Unfortunately this is how `pygame`, and a lot of other computer graphics
+work, and you will need to remember this difference.
+
+<div class="message-box task">
+  <div class="title">Task: Experiment!</div>
+  <div class="message-inner">
+    <p>
+      Try changing the numbers for the line of code that copies the space ship
+      to the window, and <strong>run your code</strong>. For example, changing
+      it to <code>(300, 100)</code> results in this:
+    </p>
+    <p style="text-align: center;">
+      <img src="004.png" alt="moved ship" />
+    </p>
+    <p>
+      The ship has moved <code>300</code> pixels right, and <code>100</code>
+      pixels down. This is because it now has an <code>x</code> value of
+      <code>300</code> and a <code>y</code> value of <code>100</code>.
+    </p>
+    <p>
+      If we instead use the co-ordinates <code>(-50, 50)</code>, we get this:
+    </p>
+    <p style="text-align: center;">
+      <img src="005.png" alt="moved ship off screen" />
+    </p>
+    <p>
+      You can see it has moved off screen.
+    </p>
+  </div>
+</div>
+
+Lets look at the final line of code we added:
+
+        pygame.display.flip()
+
+This line just tells `pygame` that, now that we have made changes to the
+window, we would like it to be updated. The reason it doesn't update the window
+automatically is because if we are doing a lot of changes, and if it takes a
+long time, the user would see lots of un finished frames, when we are still
+making changes to the window.
+
+By requiring us to tell it when we have finished changing the window, `pygame`
+can make sure that it updates the screen really quickly, all at once, so the
+user never sees half-finished frames.
+
+### Going over All the Code
+
+Lets go over the whole program, and see if we can understand how it all works
+together.
+
+    import pygame
+    import sys
+
+    pygame.init()
+
+    window = pygame.display.set_mode((800, 500))
+    clock = pygame.time.Clock()
+
+    background = (0, 0, 0)
+    ship_image = pygame.image.load("ship_normal.png")
+
+    while True:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+
+        window.fill(background)
+        window.blit(ship_image, (0, 0))
+
+        pygame.display.flip()
+
+        clock.tick(50)
+
+**What the code does:**
+
+*Try and follow along with the code above so that you can make sure that you
+understand what each line is doing.*
+
+* We tell python that we want to use the `pygame` and `sys` modules.
+* We tell `pygame` to set up.
+* We create a new variable called `window`, and store a window object in there
+  that we can manipulate.
+* We create a new variable called `clock`, and store a `pygame` clock in there
+  so that we can control the **framerate** of the game.
+* We create a new variable called `background`, and store a **tuple** in there.
+  We are going to use this **tuple** as a colour.
+* We create a new variable called `ship_image`, and store the image of the
+  space ship in it.
+* We start a **loop**, that repeats forever, and will run once for every frame.
+  Inside the loop:
+  * We check if the user has closed the window, if the window is closed, we
+    stop the program.
+  * We fill the whole window with the colour stored in the variable
+    `background`.
+  * We copy the space ship image stored in `ship_image` to the window, at the
+    top left of the screen.
+  * We tell `pygame` that we have finished making changes to the window, and it
+    should update the screen.
+  * We make the loop pause for a short period of time so that our frame rate is
+    not too high.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="message-box note">
   <div class="title">Work in Progress!</div>
