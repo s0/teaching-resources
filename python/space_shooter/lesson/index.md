@@ -842,12 +842,93 @@ Now lets make the bullets move accross the screen
   </div>
 </div>
 
+## Make The Ship Tilt
 
+Images have been included to make the ship tilt to indicate it is rising or
+falling. Let's implement this.
 
+Firstly lets convert the ship into a sprite, like each of the bullets are.
 
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      Replace this code:
+    </p>
+    <pre><code>ship_x = 0
+ship_y = 0</code></pre>
+    <p>
+      With this:
+    </p>
+    <pre><code>ship = Sprite()
+ship.x = 0
+ship.y = 0
+ship.image = ship_image</code></pre>
+  </div>
+  <p>
+    And replace this line (the line that draws the ship):
+  </p>
+  <pre><code>    window.blit(ship_image, (ship_x, ship_y))</code></pre>
+  <p>
+    With this:
+  </p>
+  <pre><code>    display_sprite(ship)</code></pre>
+  <p>
+    And finally, replace all instances of <code>ship_x</code> and
+    <code>ship_y</code> with <code>ship.x</code> and <code>ship.y</code>
+    respectively, across the entire file.
+  </p>
+</div>
 
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. Everything should be working exactly as,
+      make sure you fix any errors before continuing.
+    </p>
+  </div>
+</div>
 
+Now we only need to add a few lines to make the ship tilt.
 
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      Under the code that loads the ship image as <code>ship_image</code>, we
+      will load the other two images, so write this code there:
+    </p>
+    <pre><code>ship_image_up = pygame.image.load("ship_up.png")
+ship_image_down = pygame.image.load("ship_down.png")</code></pre>
+    <p>
+      We are going to change the ship image in the same part of the code that
+      changes its position, before the line of code that sets the
+      <code>pressed_keys</code> variable, write this:
+    </p>
+    <pre><code>    ship.image = ship_image</code></pre>
+  </div>
+  <p>
+    Inside the if statement that checks if <code>K_UP</code> is pressed, write
+    this:
+  </p>
+  <pre><code>        ship.image = ship_image_up</code></pre>
+  <p>
+    And inside the if statement that checks if <code>K_DOWN</code> is pressed,
+    write this:
+  </p>
+  <pre><code>        ship.image = ship_image_down</code></pre>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. Now when the ship moves up and down, it should
+      tilt.
+    </p>
+  </div>
+</div>
 
 
 <div class="message-box note">
