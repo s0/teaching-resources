@@ -84,7 +84,8 @@ second.
   <div class="title">Task</div>
   <div class="message-inner">
     Create a new python file called <code>game.py</code> in your python text
-    editor, enter the following code, and save the file.
+    editor, enter the following code, and save the file <strong>in the folder
+    you just created</strong>.
   </div>
 </div>
 
@@ -141,9 +142,9 @@ each bit does.
     import pygame
     import sys
 
-These first two lines tell python that we want to need to use some extra cod
-from outside of our `game.py` file. In particular we want to use `pygame` and
-`sys` at the moment. These are called `modules`.
+These first two lines tell python that we want to use some extra code from
+outside of our `game.py` file. In particular we want to use `pygame` and `sys`
+at the moment. These are called `modules`.
 
 We are going to use the `pygame` module a lot in this project.
 
@@ -577,11 +578,11 @@ their values to work out where to copy the space ship image to on the window.
     if pressed_keys[pygame.K_DOWN]:
         ship_y = ship_y + 10
 
-    if pressed_keys[pygame.K_RIGHT]:
-        ship_x = ship_x + 10
-
     if pressed_keys[pygame.K_LEFT]:
-        ship_x = ship_x - 10</code></pre>
+        ship_x = ship_x - 10
+
+    if pressed_keys[pygame.K_RIGHT]:
+        ship_x = ship_x + 10</code></pre>
     <p>
       <strong>Note:</strong> make sure you indent it so that it is inside the
       loop!
@@ -687,24 +688,159 @@ The other 3 if statements work in the same way, **increasing** or
   </div>
 </div>
 
+## Stop the Space Ship Going Out the Window
 
+We are going to stop the space ship going out the window by being careful about
+what values we give to `ship_x` and `ship_y`.
 
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      After the code that changes the <code>ship_x</code> and
+      <code>ship_y</code> variables, add this:
+    </p>
+<pre><code>    # Stop ship going out of bounds
+    if ship_y < 0:
+        ship_y = 0
 
+    if ship_y > window.get_height() - ship_image.get_height():
+        ship_y = window.get_height() - ship_image.get_height()
 
+    if ship_x < 0:
+        ship_x = 0
 
+    if ship_x > window.get_width() - ship_image.get_width():
+        ship_x = window.get_width() - ship_image.get_width()</code></pre>
+    <p>
+      <strong>Note:</strong> make sure you indent it so that it is inside the
+      loop!
+    </p>
+  </div>
+</div>
 
+The line beginning with `#` is called a comment. We've put this here to help us
+explain what the code does, and we can write anything after the `#` symbol.
 
+## Making the Ship File Bullets
 
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      Underneath the code that loads the space ship image, write this code to
+      load an image of a bullet.
+    </p>
+    <pre><code>bullet_image = pygame.image.load("bullet.png")</code></pre>
+    <p>
+      And under this, write the following lines of code.
+    </p>
+    <pre><code>class Sprite:
+    pass
 
+def display_sprite(sprite):
+    window.blit(sprite.image, (sprite.x, sprite.y))</code></pre>
+    <p>
+      This small bit of code will allow us to create &quot;sprite&quot;
+      objects, where we will store the image and location of something we want
+      to draw on screen. It also allows us to draw the sprites much more
+      easily.
+    </p>
+    <p>
+      Under the code that sets the ship's position to (0, 0), write this line
+      of code:
+    </p>
+    <pre><code>bullets = []</code></pre>
+    <p>
+      This is where we are going to store a list of all the bullet sprites
+      (because we can have lots of them at the same time!)
+    </p>
+    <p>
+      Under that, write this:
+    </p>
+    <pre><code>def fire_bullet():
+    bullet = Sprite()
+    bullet.x = ship_x + 130
+    bullet.y = ship_y + 100
+    bullet.image = bullet_image
+    bullets.append(bullet)</code></pre>
+    <p>
+      This is a function which handles creating the bullets for us. We can put
+      <code>fire_bullet()</code> anywhere we want to trigger a bullet being
+      fired.
+    </p>
+    <p>
+      Under the code that changes the position of the ship, write this:
+    </p>
+    <pre><code>if pressed_keys[pygame.K_SPACE]:
+        fire_bullet()</code></pre>
+    <p>
+      And under the code that draws the ship on the window, write this:
+    </p>
+    <pre><code>for bullet in bullets:
+        display_sprite(bullet)</code></pre>
+  </div>
+</div>
 
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. If everything is working, you should be able
+      to press the space bar and lots of bullets appear on the screen, perhaps
+      too many. Also, out bullets currently stay still, we probably want them
+      to move on the screen!
+    </p>
+  </div>
+</div>
 
+Our current code will fire a bullet for every frame that the space bar is held
+down on, let's change it so that it is only once every time we press the space
+bar.
 
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      Remove the <code>if</code> statement we created in the last task that
+      used <code>fire_bullet()</code> when it detected the space bar was
+      currently being pressed.
+    </p>
+    <p>
+      Under the code that calls <code>sys.exit()</code>, add these lines,
+      making sure they are indented so that they are inside the for loop.
+    </p>
+    <pre><code>        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                fire_bullet()</code></pre>
+  </div>
+</div>
 
+Now lets make the bullets move accross the screen
 
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      Add this code under the code that changes the ship's position.
+    </p>
+    <pre><code>    for bullet in bullets:
+        bullet.x = bullet.x + 13
 
+    bullets = [bullet for bullet in bullets if bullet.x < window.get_width()])</code></pre>
+  </div>
+</div>
 
-
-
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. If everything is working, a much smaller
+      amount of bullets should be appearing on the screen, and they should also
+      fly towards the right.
+    </p>
+  </div>
+</div>
 
 
 
