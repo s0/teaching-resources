@@ -20,3 +20,5 @@ that I use throughout the resources.
 ## Resource Index
 
 ### [Python](python/)
+
+### [Theory](theory/)
