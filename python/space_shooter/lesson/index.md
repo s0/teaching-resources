@@ -837,7 +837,10 @@ Now lets make the bullets move accross the screen
     <p>
       Try running your code now. If everything is working, a much smaller
       amount of bullets should be appearing on the screen, and they should also
-      fly towards the right.
+      fly towards the right. It should look like the image below.
+    </p>
+    <p style="text-align: center;">
+      <img src="006.png" alt="Shooting Ship" />
     </p>
   </div>
 </div>
@@ -864,20 +867,20 @@ ship_y = 0</code></pre>
 ship.x = 0
 ship.y = 0
 ship.image = ship_image</code></pre>
+    <p>
+      And replace this line (the line that draws the ship):
+    </p>
+    <pre><code>    window.blit(ship_image, (ship_x, ship_y))</code></pre>
+    <p>
+      With this:
+    </p>
+    <pre><code>    display_sprite(ship)</code></pre>
+    <p>
+      And finally, replace all instances of <code>ship_x</code> and
+      <code>ship_y</code> with <code>ship.x</code> and <code>ship.y</code>
+      respectively, across the entire file.
+    </p>
   </div>
-  <p>
-    And replace this line (the line that draws the ship):
-  </p>
-  <pre><code>    window.blit(ship_image, (ship_x, ship_y))</code></pre>
-  <p>
-    With this:
-  </p>
-  <pre><code>    display_sprite(ship)</code></pre>
-  <p>
-    And finally, replace all instances of <code>ship_x</code> and
-    <code>ship_y</code> with <code>ship.x</code> and <code>ship.y</code>
-    respectively, across the entire file.
-  </p>
 </div>
 
 <div class="message-box run">
@@ -925,10 +928,160 @@ ship_image_down = pygame.image.load("ship_down.png")</code></pre>
   <div class="message-inner">
     <p>
       Try running your code now. Now when the ship moves up and down, it should
-      tilt.
+      tilt, like in the image below.
+    </p>
+    <p style="text-align: center;">
+      <img src="007.png" alt="Tilting Ship" />
     </p>
   </div>
 </div>
+
+## Adding Aliens
+
+Lets add some aliens that appear on the right hand side of the screen and move
+towards the space ship.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      First we need to load an alien image to use, after the code that loads
+      the bullet image, write this line:
+    </p>
+    <pre><code>alien_image = pygame.image.load("alien_1.png")</code></pre>
+    <p>
+      We need to create a list to store the alien sprites in, under the line
+      of code where we create the variable <code>bullets</code>, write this:
+    </p>
+    <pre><code>aliens = []</code></pre>
+    <p>
+      We want the aliens to appear with some time delay between each one, so we
+      will create a variable to count how many frames we have left before we
+      will display another alien. So add this code after the last line you
+      wrote:
+    </p>
+    <pre><code>frames_until_next_alien = 50</code></pre>
+    <p>
+      Under the <code>fire_bullet</code> function, write this code:
+    </p>
+    <pre><code>def add_alien():
+    alien = Sprite()
+    alien.x = window.get_width()
+    alien.y = window.get_height() / 2
+    alien.image = alien_image
+    aliens.append(alien)</code></pre>
+    <p>
+      This is a function that we can use at any point in our code to create an
+      alien.
+    </p>
+    <p>
+      Before the line of code that fills the background
+      (<code>window.fill(background)</code>), write this:
+    </p>
+    <pre><code>    frames_until_next_alien = frames_until_next_alien - 1
+    if frames_until_next_alien <= 0:
+        frames_until_next_alien = 50
+        add_alien()
+
+    for alien in aliens:
+        alien.x = alien.x - 3
+
+    aliens = [alien for alien in aliens if alien.x > - alien_image.get_width()]</code></pre>
+    <p>
+      This code calls the function <code>add_alien()</code> once every 50
+      frames, and also deleted aliens once they go off the screen (so we can
+      forget about them)
+    </p>
+    <p>
+      And after the code that displays the bullets, write this to display the
+      aliens on screen.
+    </p>
+    <pre><code>    for alien in aliens:
+        display_sprite(alien)</code></pre>
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+    Try running your code now. If everything is working, you should now see
+    aliens starting to appear from the right of the screen, all in a line.
+    </p>
+    <p style="text-align: center;">
+      <img src="008.png" alt="First Contact" />
+    </p>
+  </div>
+</div>
+
+## Adding A Little Randomness
+
+Currently the aliens all appear at the same delay, and in the same position,
+this is a little boring and predictable, lets add some randomness.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      Firsly lets make the delay between new aliens random, underneath the line
+      <code>import sys</code>, right at the top, write this:
+    </p>
+    <pre><code>import random</code></pre>
+    <p>
+      Next, on the line <code>frames_until_next_alien = 50</code>, which should
+      be near the bottom of your file, replace the number <code>50</code> with
+      <code>random.randrange(30, 100)</code>. This will make the gap between
+      aliens appearing be anything between 30 to 100 frames.
+    </p>
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+    Try running your code now. You should see the gaps between aliens become a
+    bit random, like this:
+    </p>
+    <p style="text-align: center;">
+      <img src="009.png" alt="Random Encounters" />
+    </p>
+  </div>
+</div>
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      Now lets make them appear at different heights on the screen, in the
+      <code>add_alien()</code> function, where we set the <code>y</code> of the
+      alien sprite, instead of <code>window.get_height() / 2</code>, give it
+      this value: <code></code>
+    </p>
+    <pre><code>import random</code></pre>
+    <p>
+      Next, on the line <code>frames_until_next_alien = 50</code>, which should
+      be near the bottom of your file, replace the number <code>50</code> with
+      <code>random.randrange(30, 100)</code>. This will make the gap between
+      aliens appearing be anything between 30 to 100 frames.
+    </p>
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+    Try running your code now. You should now also see that aliens have random
+    y positions like this:
+    </p>
+    <p style="text-align: center;">
+      <img src="010.png" alt="Random Encounters at Random Heights" />
+    </p>
+  </div>
+</div>
+
+
 
 
 <div class="message-box note">
