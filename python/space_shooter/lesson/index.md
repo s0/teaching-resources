@@ -41,8 +41,6 @@ Here are the files that you need to download to use in your game.
 * [`ship_down.png`](downloads/ship_down.png)
 * [`ship_normal.png`](downloads/ship_normal.png)
 * [`ship_up.png`](downloads/ship_up.png)
-* [`stars_1.png`](downloads/stars_1.png)
-* [`stars_2.png`](downloads/stars_2.png)
 
 *Attribution and copyright for these images can be found on the [lesson
 details page](../).*
@@ -1005,8 +1003,8 @@ towards the space ship.
   <div class="title">Run Your Code</div>
   <div class="message-inner">
     <p>
-    Try running your code now. If everything is working, you should now see
-    aliens starting to appear from the right of the screen, all in a line.
+      Try running your code now. If everything is working, you should now see
+      aliens starting to appear from the right of the screen, all in a line.
     </p>
     <p style="text-align: center;">
       <img src="008.png" alt="First Contact" />
@@ -1040,8 +1038,8 @@ this is a little boring and predictable, lets add some randomness.
   <div class="title">Run Your Code</div>
   <div class="message-inner">
     <p>
-    Try running your code now. You should see the gaps between aliens become a
-    bit random, like this:
+      Try running your code now. You should see the gaps between aliens become
+      a bit random, like this:
     </p>
     <p style="text-align: center;">
       <img src="009.png" alt="Random Encounters" />
@@ -1058,12 +1056,114 @@ this is a little boring and predictable, lets add some randomness.
       alien sprite, instead of <code>window.get_height() / 2</code>, give it
       this value: <code></code>
     </p>
-    <pre><code>import random</code></pre>
+    <pre><code>random.randrange(100, window.get_height() - 100)</code></pre>
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
     <p>
-      Next, on the line <code>frames_until_next_alien = 50</code>, which should
-      be near the bottom of your file, replace the number <code>50</code> with
-      <code>random.randrange(30, 100)</code>. This will make the gap between
-      aliens appearing be anything between 30 to 100 frames.
+      Try running your code now. You should now also see that aliens have
+      random y positions like this:
+    </p>
+    <p style="text-align: center;">
+      <img src="010.png" alt="Random Encounters at Random Heights" />
+    </p>
+  </div>
+</div>
+
+# Adding Stars to the Background
+
+We are going to add stars to the screen, and they are going to behave in a very
+similar way to the aliens.
+
+We will not load an image for the stars, instead we will create small white
+dots using code.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      To begin with, we need to store the stars we have on the screen in a
+      variable, so <strong>under the code where we create the
+      <code>aliens</code> variable</strong>, write this:
+    </p>
+    <pre><code>stars = []</code></pre>
+    <p>
+      Like with the aliens, we will keep track of when we want our next star to
+      appear by counting down frames, so <strong>under the code where we create
+      the <code>frames_until_next_alien</code> variable</strong>, write this:
+    </p>
+    <pre><code>frames_until_next_star = 0</code></pre>
+    <p>
+      Like both the aliens and bullets, we are going to create a function that
+      creates a single star. <strong>Under the <code>add_alien</code>
+      function</strong>, add the following code.
+    </p>
+    <p>
+      <em>Remember that everything that is <strong>indented</strong> under the
+      function definition is part of the function, so you need to add the code
+      under that.</em>
+    </p>
+    <pre><code>def add_star():
+    star = Sprite()
+    star.x = window.get_width()
+    star.y = random.randrange(10, window.get_height() - 10)
+    star.image = pygame.Surface((2, 2))
+    star.image.fill((255, 255, 255))
+    stars.append(star)</code></pre>
+    <p>
+      Next, we need to actually call the function <code>add_star</code> at
+      regular intervals, move the stars' x positions in each frame, and remove
+      the stars when they go off the screen, so <strong>before the line saying
+      <code>window.fill(background)</code></strong>, add this code:
+    </p>
+    <pre><code>    frames_until_next_star = frames_until_next_star - 1
+    if frames_until_next_star <= 0:
+        frames_until_next_star = random.randrange(10, 30)
+        add_star()
+
+    for star in stars:
+        star.x = star.x - 2
+
+    stars = [star for star in stars if star.x > - 10]</code></pre>
+    <p>
+      Finally, we need to actually paint the stars, so this time, <strong>under
+      the line saying <code>window.fill(background)</code></strong>, write
+      this:
+    </p>
+    <pre><code>for star in stars:
+        display_sprite(star)</code></pre>
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. You should now see stars start to appear.
+    </p>
+    <p style="text-align: center;">
+      <img src="011.png" alt="Stars" />
+    </p>
+  </div>
+</div>
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      To make the stars look a little more interesting, we can give them
+      different sizes randomly. <strong>In the <code>add_star</code>
+      function</strong>, replace the line
+      <code>star.image = pygame.Surface((2, 2))</code> with these two lines:
+    </p>
+    <pre><code>    star_size = random.randrange(1, 4)
+    star.image = pygame.Surface((star_size, star_size))</code></pre>
+    <p>
+      This makes the size of any star anything from 1x1 pixels to 4x4 pixels
+      square.
     </p>
   </div>
 </div>
@@ -1072,17 +1172,75 @@ this is a little boring and predictable, lets add some randomness.
   <div class="title">Run Your Code</div>
   <div class="message-inner">
     <p>
-    Try running your code now. You should now also see that aliens have random
-    y positions like this:
+      Try running your code now. You should now see stars have varying sizes.
     </p>
     <p style="text-align: center;">
-      <img src="010.png" alt="Random Encounters at Random Heights" />
+      <img src="012.png" alt="Stars of Different Sizes" />
     </p>
   </div>
 </div>
 
+# Making The Bullets Destroy Aliens
 
+Lets make the bullets destroy the aliens on the screen.
 
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      <strong>In the <code>fire_bullet</code> function</strong>, before the
+      line <code>bullets.append(bullet)</code>, add this:
+    </p>
+    <pre><code>    bullet.used = False</code></pre>
+    <p>
+      <strong>In the <code>add_alien</code> function</strong>, before the line
+      <code>aliens.append(alien)</code>, add this:
+    </p>
+    <pre><code>    alien.hit = False</code></pre>
+    <p>
+      <strong>after the <code>add_star</code> function</strong>, add this
+      function:
+    </p>
+    <pre><code>def get_sprite_rectangle(sprite):
+    return sprite.image.get_rect().move(sprite.x, sprite.y)</code></pre>
+    <p>
+      This function takes a sprite as an argument, and returns a rectangle
+      representing its position on the screen, which we will use to check if
+      two sprites have collided with one another.
+    </p>
+    <p>
+      <strong>Above the <code>window.fill(background)</code> line</strong>,
+      add this bit of code:
+    </p>
+    <pre><code>    for alien in aliens:
+        alien_rect = get_sprite_rectangle(alien)
+        for bullet in bullets:
+            if alien_rect.colliderect(get_sprite_rectangle(bullet)):
+                alien.hit = True
+                bullet.used = True
+                continue</code></pre>
+    <p>
+      Replace the line
+      <code>aliens = [alien for alien in aliens if alien.x > - alien_image.get_width()]</code>
+      with this:
+    </p>
+    <pre><code>    aliens = [alien for alien in aliens if alien.x > - alien_image.get_width() and not alien.hit]</code></pre>
+    <p>
+      And replace the line <code>bullets = [bullet for bullet in bullets if bullet.x < window.get_width()])</code>
+    </p>
+    <pre><code>    bullets = [bullet for bullet in bullets if bullet.x < window.get_width() and not bullet.used]</code></pre>
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. After shooting bullets and hitting aliens,
+      both the aliens and the bullets should disappear.
+    </p>
+  </div>
+</div>
 
 <div class="message-box note">
   <div class="title">Work in Progress!</div>

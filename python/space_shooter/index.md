@@ -50,7 +50,5 @@ All the images used in this lesson are either from
 * `ship_down.png`, `ship_normal.png` and `ship_up.png` -
   [http://opengameart.org/content/space-ship-3d2d](http://opengameart.org/content/space-ship-3d2d) -
   License: [Creative Commons Attribution 3.0 Unported](http://creativecommons.org/licenses/by/3.0/)
-* `stars_1.png` and `stars_2.png` - Created by myself -
-  [Public Domain](http://creativecommons.org/publicdomain/zero/1.0/)
 
 ## [View Lesson](lesson/)
