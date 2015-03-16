@@ -37,6 +37,7 @@ You will be using `python` and `pygame` to create this game.
 Here are the files that you need to download to use in your game.
 
 * [`alien_1.png`](downloads/alien_1.png)
+* [`alien_1_dead.png`](downloads/alien_1_dead.png)
 * [`bullet.png`](downloads/bullet.png)
 * [`ship_down.png`](downloads/ship_down.png)
 * [`ship_normal.png`](downloads/ship_normal.png)
@@ -1073,7 +1074,7 @@ this is a little boring and predictable, lets add some randomness.
   </div>
 </div>
 
-# Adding Stars to the Background
+## Adding Stars to the Background
 
 We are going to add stars to the screen, and they are going to behave in a very
 similar way to the aliens.
@@ -1180,7 +1181,7 @@ dots using code.
   </div>
 </div>
 
-# Making The Bullets Destroy Aliens
+## Making The Bullets Destroy Aliens
 
 Lets make the bullets destroy the aliens on the screen.
 
@@ -1238,6 +1239,158 @@ Lets make the bullets destroy the aliens on the screen.
     <p>
       Try running your code now. After shooting bullets and hitting aliens,
       both the aliens and the bullets should disappear.
+    </p>
+  </div>
+</div>
+
+## Adding a Score
+
+We will want to keep track of the players score throughout the game, and
+eventually keep track of a high score. So lets add a score.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      Firstly, <strong>above the line <code>background = (0, 0, 0)</code>
+      </strong> (right at the top of your file), write this code which creates
+      a font we will use for our score text, and a foreground variable which
+      will be our text colour.
+    </p>
+    <pre><code>font = pygame.font.Font(None, 24)
+foreground = (200, 200, 200)</code></pre>
+    <p>
+      Next, <strong>above the line <code>bullets = []</code></strong> create a
+      new variable called <code>score</code> like this:
+    </p>
+    <pre><code>score = 0</code></pre>
+    <p>
+      This variable will keep track of the user's score, and we will now
+      increase it when aliens are hit.
+    </p>
+    <p>
+      Find the <code>for</code> loop that we added in the last task, and
+      <strong>under the line <code>bullet.used = True</code></strong>, write
+      the following:
+    </p>
+    <p>
+      <em>Make sure that you indent it the same as the line above!</em>
+    </p>
+    <pre><code>score = score + 10</code></pre>
+    <p>
+      What this does is add <code>10</code> to the user's score every time an
+      alien is hit with a bullet!
+    </p>
+    <p>
+      Finally, we need to actually write the score on the screen with some
+      text, so <strong>before the line
+      <code>pygame.display.flip()</code></strong>, write this:
+    </p>
+    <pre><code>    score_text = font.render("SCORE: " + str(score), 1, foreground)
+    score_text_pos = score_text.get_rect()
+    score_text_pos.right = window.get_width() - 10
+    score_text_pos.top = 10
+    window.blit(score_text, score_text_pos)</code></pre>
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. You should now see that you have a score in
+      the top right hand corner, and when you shoot aliens, your score should
+      go up by <code>10</code> each time.
+    </p>
+    <p style="text-align: center;">
+      <img src="013.png" alt="Score Text" />
+    </p>
+  </div>
+</div>
+
+## Exploding Aliens
+
+Lets add a little animation to the aliens after you shoot them.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      <strong>Under the line of code where we load the alien image</strong>,
+      write this:
+    </p>
+    <pre><code>alien_dead_image = pygame.image.load("alien_1_dead.png")</code></pre>
+    <p>
+      This is the image we will display and fade out when an alien is hit.
+    </p>
+    <p>
+      <strong>Inside the <code>add_alien</code> function, after the line
+      <code>alien.hit = False</code></strong>, write this:
+    </p>
+    <pre><code>alien.alpha = 255</code></pre>
+    <p>
+      This will hold the number representing how opaque / transparent we want
+      the alien to be, so we can have a fade out animation.
+    </p>
+    <p>
+      <strong>Inside the for loop that changes each alien's x position on each
+      frame, under the line that changes the x position</strong>, write this:
+    </p>
+    <pre><code>        if alien.hit:
+            alien.alpha = max(0, alien.alpha - 10)</code></pre>
+    <p>
+      This will change the value we will use for the transparency on each frame
+      for any alien that is hit.
+    </p>
+    <p>
+      <strong>Below that, on the line that looks like:
+      <code>aliens = [alien for alien ...]</code></strong> replace the code
+      <code>alien.hit</code> with:
+    </p>
+    <pre><code>(alien.hit and alien.alpha == 0)</code></pre>
+    <p>
+      So that aliens are only deleted after they have faded out, and not as
+      soon as they are hit.
+    </p>
+    <p>
+      <strong>Inside the <code>for</code> loop which detects when aliens have
+      been hit by bullets, before the line where you write
+      <code>alien_rect = get_sprite_rectangle(alien)</code></strong>, write
+      this:
+    </p>
+    <pre><code>        if alien.hit:
+            continue</code></pre>
+    <p>
+      To prevent aliens that have been hit from being hit multiple times while
+      they are fading out, before they have been deleted.
+    </p>
+    <p>
+      <strong>In the same loop, after the line
+      <code>alien.hit = True</code></strong>, write these two lines to correct
+      the position of the alien after the image is swapped:
+    </p>
+    <pre><code>                alien.x = alien.x - 6
+                alien.y = alien.y - 6</code></pre>
+    <p>
+      And the final piece of the puzzle is to draw the alien with transparency
+      if it is hit, and to use a different image. <strong>So in the for loop
+      that draws the aliens on the screen, above the line
+      <code>display_sprite(alien)</code></strong>, write:
+    </p>
+    <pre><code>        if alien.hit:
+            tmp = pygame.Surface( alien_dead_image.get_size(), pygame.SRCALPHA, 32)
+            tmp.fill( (255, 255, 255, alien.alpha) )
+            tmp.blit(alien_dead_image, (0,0), alien_dead_image.get_rect(), pygame.BLEND_RGBA_MULT)
+            alien.image = tmp</code></pre>
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. After shooting bullets and hitting aliens,
+      their image should change, then fade out.
     </p>
   </div>
 </div>
