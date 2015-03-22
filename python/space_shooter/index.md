@@ -5,7 +5,7 @@ title: Space Shooter Game
 # Space Shooter Game
 
 <div style="text-align: center">
-<img src="lesson/001.png" alt="Screenshot" />
+<img src="lesson/015.png" alt="Screenshot" />
 </div>
 
 ## Lesson Aims
@@ -44,11 +44,16 @@ All the images used in this lesson are either from
 * `alien_1.png` -
   [http://opengameart.org/content/space-shooter-top-down-2d-pixel-art](http://opengameart.org/content/space-shooter-top-down-2d-pixel-art) -
   [Public Domain](http://creativecommons.org/publicdomain/zero/1.0/)
+* `alien_1_dead.png` - a modified version of the above image, also released
+   under [Public Domain](http://creativecommons.org/publicdomain/zero/1.0/)
 * `bullet.png` -
   [http://opengameart.org/content/bullet-collection-1-m484](http://opengameart.org/content/bullet-collection-1-m484) -
   [Public Domain](http://creativecommons.org/publicdomain/zero/1.0/)
 * `ship_down.png`, `ship_normal.png` and `ship_up.png` -
   [http://opengameart.org/content/space-ship-3d2d](http://opengameart.org/content/space-ship-3d2d) -
   License: [Creative Commons Attribution 3.0 Unported](http://creativecommons.org/licenses/by/3.0/)
+* `ship_destroyed.png` - is a modified version of the ship based on the 3
+  images above and the explosion image found here:
+  [http://www.deviantart.com/art/Explosion-3-491196859](http://www.deviantart.com/art/Explosion-3-491196859)
 
 ## [View Lesson](lesson/)

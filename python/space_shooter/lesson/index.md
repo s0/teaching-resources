@@ -13,7 +13,7 @@ $(document).ready(function() {
 </script>
 
 <div style="text-align: center">
-<img src="001.png" alt="Screenshot" />
+<img src="015.png" alt="Screenshot" />
 </div>
 
 ## Introduction
@@ -42,6 +42,7 @@ Here are the files that you need to download to use in your game.
 * [`ship_down.png`](downloads/ship_down.png)
 * [`ship_normal.png`](downloads/ship_normal.png)
 * [`ship_up.png`](downloads/ship_up.png)
+* [`ship_destroyed.png`](downloads/ship_destroyed.png)
 
 *Attribution and copyright for these images can be found on the [lesson
 details page](../).*
@@ -1391,6 +1392,139 @@ Lets add a little animation to the aliens after you shoot them.
     <p>
       Try running your code now. After shooting bullets and hitting aliens,
       their image should change, then fade out.
+    </p>
+  </div>
+</div>
+
+## Adding Lives
+
+We don't want the player to be invincible, so lets add lives, and reduce the
+player's life when the ship gets hit by an alien.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+  <p>
+    Firstly, <strong>below the line where we create the score variable,
+    <code>score = 0</code></strong>, write this:
+  </p>
+  <pre><code>lives = 3</code></pre>
+  <p>
+    This will keep track of the number of lives we have given to the player.
+  </p>
+  <p>
+    <strong>Under the line <code>ship.y = 0</code></strong>, write this:
+  </p>
+  <pre><code>ship.red = 0</code></pre>
+  <p>
+    We will use this value to make the ship flash red when a life is lost, when
+    the ship is completely red, this value will be <code>255</code>, and when
+    it is normal it will be <code>0</code>. It will gradually change from
+    <code>255</code> to <code>0</code> to create a fade effect after being hit.
+  </p>
+  <p>
+    <strong>Above the for loop that detects when aliens are hit by bullets (it
+    starts with <code>for alien in aliens:</code></strong>, write this:
+  </p>
+  <pre><code>    ship.red = max(0, ship.red - 10)
+    ship_rect = get_sprite_rectangle(ship)</code></pre>
+  <p>
+    This decreases the ship's redness in each frame, and creates a rectangle
+    object that represents where the ship is on the screen, and we will now use
+    it to detect when it is hit by an alien.
+  </p>
+  <p>
+    A couple of lines below this, <strong>under the line
+    <code>alien_rect = get_sprite_rectangle(alien)</code></strong>, write this:
+  </p>
+  <pre><code>        if alien_rect.colliderect(ship_rect):
+            alien.hit = True
+            alien.x = alien.x - 6
+            alien.y = alien.y - 6
+            lives = lives - 1
+            ship.red = 255
+            continue</code></pre>
+  </div>
+  <p>
+    <strong>Before the line <code>display_sprite(ship)</code></strong>, write
+    this:
+  </p>
+  <pre><code>    if ship.red > 0:
+        tmp = pygame.Surface(ship.image.get_size(), pygame.SRCALPHA, 32)
+        tmp.fill( (255, 255 - ship.red, 255 - ship.red, 255) )
+        tmp.blit(ship.image, (0,0), ship.image.get_rect(), pygame.BLEND_RGBA_MULT)
+        ship.image = tmp</code></pre>
+  <p>
+    This will actually use the number <code>ship.red</code> to make the ship
+    as red as it needs to be!
+  </p>
+  <p>
+    Finally, we actually want to display the score on the screen! So
+    <strong>below the code which displays the player's score</strong>, write
+    the following:
+  </p>
+  <pre><code>    lives_text = font.render("LIVES: " + str(lives), 1, foreground)
+    window.blit(lives_text, (10, 10))</code></pre>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. You should now see that you have lives in the
+      top left hand corner, and when you hit an alien, your ship should flash
+      red and the players lives should decrease.
+    </p>
+    <p>
+      You should also notice that, when you have reached zero lives
+      <strong>you can still keep playing, and your lives will decrease even
+      further!</strong>
+    </p>
+    <p style="text-align: center;">
+      <img src="014.png" alt="Introducing Lives" />
+    </p>
+  </div>
+</div>
+
+## Prevent Negative Lives
+
+This is quite an easy thing to fix, we only change the players life in one
+place, and that is when the ship is hit by an alien. So we can add a check to
+make sure that the game only detects this when the player has positive life.
+
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      In the loop which checks when aliens collide with the ship,
+      <strong>replace</strong> the line which says
+      <code>if alien_rect.colliderect(ship_rect):</code> with this:
+    </p>
+    <pre><code>        if alien_rect.colliderect(ship_rect) and lives > 0:</code></pre>
+  </div>
+</div>
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. After your lives reaches <code>0</code>, the
+      game should not do anything when your ship is hit with aliens.
+    </p>
+  </div>
+</div>
+
+## Destroy the ship when lives run out
+
+<div class="message-box run">
+  <div class="title">Run Your Code</div>
+  <div class="message-inner">
+    <p>
+      Try running your code now. When you die, your ship should be replaced
+      with an image of a destroyed one that slowly fades away.
+    </p>
+    <p style="text-align: center;">
+      <img src="015.png" alt="Exploding Ship" />
     </p>
   </div>
 </div>

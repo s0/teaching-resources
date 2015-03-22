@@ -13,7 +13,7 @@ need to introduce the concept of classes and static methods right at the start.
 ### [Space Shooter](space_shooter/)
 
 <a href="space_shooter/">
-<img src="space_shooter/lesson/001.png" alt="Screenshot" style="max-height: 250px" />
+<img src="space_shooter/lesson/015.png" alt="Screenshot" style="max-height: 250px" />
 </a>
 
 **Difficulty:** Medium
