@@ -1516,6 +1516,45 @@ make sure that the game only detects this when the player has positive life.
 
 ## Destroy the ship when lives run out
 
+<div class="message-box task">
+  <div class="title">Task:</div>
+  <div class="message-inner">
+    <p>
+      Firstly we need to load the new destroyed ship image, <strong>under the
+      code where we load the other ship images</strong>, write:
+    </p>
+    <pre><code>ship_image_destroyed = pygame.image.load("ship_destroyed.png")</code></pre>
+    <p>
+      <strong>Under the line <code>ship.red = 0</code></strong>, write this:
+    </p>
+    <pre><code>ship.alpha = 0</code></pre>
+    <p>
+      <strong>Under the line where we change the value <code>ship.red</code> on
+      each frame</strong>, write this:
+    </p>
+    <pre><code>    ship.alpha = max(0, ship.alpha - 2)</code></pre>
+    <p>
+      <strong>Inside the for loop where we detect collisions, under the line
+      <code>lives = lives - 1</code>, replace the line
+      <code>ship.red = 255</code> with this</strong>:
+    </p>
+    <pre><code>            if lives == 0:
+                ship.x = ship.x - 50
+                ship.alpha = 255
+            else:
+                ship.red = 255</code></pre>
+    <p>
+      And finally, <strong>at the code where you draw the ship and make it red,
+      before the line <code>if ship.red > 0:</code></strong>, write this:
+    </p>
+    <pre><code>    if lives == 0:
+        tmp = pygame.Surface(ship_image_destroyed.get_size(), pygame.SRCALPHA, 32)
+        tmp.fill( (255, 255, 255, ship.alpha) )
+        tmp.blit(ship_image_destroyed, (0,0), ship_image_destroyed.get_rect(), pygame.BLEND_RGBA_MULT)
+        ship.image = tmp</code></pre>
+  </div>
+</div>
+
 <div class="message-box run">
   <div class="title">Run Your Code</div>
   <div class="message-inner">
