@@ -1568,6 +1568,12 @@ make sure that the game only detects this when the player has positive life.
   </div>
 </div>
 
+# Restart the game when space is pressed
+
+(wait until ship fades)
+
+# Keep track of a high score
+
 <div class="message-box note">
   <div class="title">Work in Progress!</div>
   <div class="message-inner">

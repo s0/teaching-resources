@@ -21,4 +21,6 @@ that I use throughout the resources.
 
 ### [Python](python/)
 
+### [Java](java/)
+
 ### [Theory](theory/)
